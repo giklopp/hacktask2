@@ -40,3 +40,5 @@ if debug: print '\n - - - FINISHED ' + str(lCtr) + ' lines - - - \n'
 print '#output format is: PERSON: [total spoken lines, crosstalk events, total chars]'
 pp = pprint.PrettyPrinter(indent=4)
 print pp.pprint(d)
+# versus an ugly print
+print str(d)

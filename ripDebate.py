@@ -1,4 +1,5 @@
 # run with 'python ripDebate.py'
+import this
 import re, pprint
 
 debug = False

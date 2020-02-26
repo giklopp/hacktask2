@@ -3,7 +3,7 @@ import re, pprint
 
 debug = False
 
-with open('./debateWithSpaces.txt', 'r') as rf:
+with open('./debate2WithSpaces.txt', 'r') as rf:
   text = rf.read()
 
 #key: [total spoken lines, crosstalk events, total chars]

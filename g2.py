@@ -31,7 +31,7 @@ for position in matches:
     name = words2[position] # who's name is at certain position?
     #print (name + ' is at ' + str(position))
     name_list.append(name)
-print(name_list) # replaces all position numbers with names, 0 = Holt, 236 = Warren, so on
+# print(name_list) # replaces all position numbers with names, 0 = Holt, 236 = Warren, so on
 
 # now need to match every speak to its respective owner. Who says what in every position?
 # automatically sorts snip into respective bin
@@ -48,7 +48,7 @@ d = {
  'BUTTIGIEG:': [],
  'BIDEN:': [],
  'BLOOMBERG:': [],
- 'PROTESTERS:': [],
+ 'PROTESTORS:': [],
 }
 counter = 0
 targetWord = '(CROSSTALK)'
@@ -59,8 +59,6 @@ for pos in matches:
       snip = words2[matches[counter + 0] : matches[counter + 1]] # words spoken # attribute words spoken to correct person
     except:
       pass # went past end of list
-    if targetWord in snip:
-        print (str(pos) + ' found ' + targetWord + ' for ' + name_list[counter]) # in ' + str(snip) )
     try:
       #d[name_list[counter]].append(snip)
       d[name_list[counter]] = d[name_list[counter]] + snip
@@ -69,7 +67,7 @@ for pos in matches:
     counter = counter + 1
 
 #print (' here is some nonsense that SANDERS said: ' + str(d['SANDERS:']))
-print (' here is some nonsense that WARREN said: ' + str(d['WARREN:']))
+# print (' here is some nonsense that WARREN said: ' + str(d['WARREN:']))
 
 for name in candidate:
   try:

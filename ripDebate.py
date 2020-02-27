@@ -1,39 +1,32 @@
 # run with 'python ripDebate.py'
-import this
-import re, pprint
+# tested with python 2.7
 
-debug = False
+import this, re, pprint
 
-with open('./debate2WithSpaces.txt', 'r') as rf:
+debug = False  # set debug true for some extra output at runtime
+
+# set your debate text file.  NOTE: must be properly formatted for the regex split to work as expected
+#with open('./debate2WithSpaces.txt', 'r') as rf:  # dem debate #10 (Charleston)
+with open('./debateWithSpaces.txt', 'r') as rf:  # dem debate #9 (Vegas)
   text = rf.read()
 
-#key: [total spoken lines, crosstalk events, total chars]
-# removed names and set them dynamically ar runtime
-'''
-d = {'BIDEN': [0,0,0],
- 'BLOOMBERG': [0,0,0],
- 'SANDERS': [0,0,0],
- 'WARREN': [0,0,0],
- 'KLOBUCHAR': [0,0,0],
- 'BUTTIGIEG': [0,0,0],
- 'HOLT': [0,0,0]}
-'''
+d = {}  # hold all the data here using NAME as the key
+lCtr = 0  # a line counter, not used for much but a sanity check
+currentKeyName = '' # holds the current key name as we iterate thru the text data
 
-d = {}
-lCtr = 0
-currentKeyName = ''
+x = re.split('(\n[A-Z]*:)',text)  # chop up the data with re using NAME:
 
-x = re.split('(\n[A-Z]*:)',text)
-for line in x:
+for line in x:  # look at each chunk of the split up file
+
   if currentKeyName != '':
-    # first see if there is a dict entry for this key.  If not, catch the error and create one
+    # see if there is already a dict entry for this key.  If not, catch the error and create one
     try:
       test = d[currentKeyName]
     except:
       print ('Created dict entry for ' + currentKeyName)
       d[currentKeyName] = [0,0,0,'']  # adding a string to cobble it all together for linguistic complexity analysis
  
-    try:
+    try:  # populate the data here
       d[currentKeyName][0] = d[currentKeyName][0] + 1
       if line.find('CROSSTALK') >= 0:
         d[currentKeyName][1] = d[currentKeyName][1] + 1
@@ -41,17 +34,18 @@ for line in x:
       d[currentKeyName][3] = d[currentKeyName][3] + ' ' + line
     except:
       pass
-    currentKeyName = ''
+    currentKeyName = ''  # reset currentKeyName for the next chunk
+
   if line.endswith(':'):
     currentKeyName = line[0:len(line)-1].strip()
     if debug: print ('PROCESS line for ' + currentKeyName + ' ~ ' + x[lCtr + 1])
   lCtr = lCtr + 1
 
 
-if debug: print ('\n - - - FINISHED ' + str(lCtr) + ' lines - - - \n')
+print ('\n - - - FINISHED ' + str(lCtr) + ' lines - - - \n')
 print ('#output format is: PERSON, total spoken lines, crosstalk events, total chars, total words, average word length')
 if debug: pprint.pprint(d)
-for i in d:
+for i in d:  # for extra credit add some word stats
   wordSalad = d[i][3].split()
   totalWords = len(wordSalad)
   sum = 0

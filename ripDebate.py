@@ -44,8 +44,10 @@ for line in x:  # look at each chunk of the split up file
 
 print ('\n - - - FINISHED ' + str(lCtr) + ' lines - - - \n')
 print ('#output format is: PERSON, total spoken lines, crosstalk events, total chars, total words, average word length')
+# write this to a file
+output = open("results.csv", "a")
 if debug: pprint.pprint(d)
-for i in d:  # for extra credit add some word stats
+for i in sorted(d):  # for extra credit add some word stats
   wordSalad = d[i][3].split()
   totalWords = len(wordSalad)
   sum = 0
@@ -55,5 +57,8 @@ for i in d:  # for extra credit add some word stats
   avg = float(sum) / totalWords
   # csv compatible formatting
   print (i + ',' + str(d[i][0]) + ',' + str(d[i][1]) + ',' + str(d[i][2]) + ',' + str(totalWords) + ',' + str(round(avg,2)))
+  output.write(i + ',' + str(d[i][0]) + ',' + str(d[i][1]) + ',' + str(d[i][2]) + ',' + str(totalWords) + ',' + str(round(avg,2)) + '\n')
+output.close()
+print('finished!  results are in result.csv')
 
 
